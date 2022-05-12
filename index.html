@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<!---->
+<!--
+-Solo necesito a manera de consulta a una tabla específica. Que luego ya yo pueda cambiar desde el código
+-Quiero que en una caja de texto se coloque el campo ID y en otro campo el número de teléfono y de cómo resultado toda la información referida a esa fila.
+-Quiero una web responsiva. La idea es que se pueda acceder desde cualquier navegador para poder realizar la consulta.
+-al final de este diseño podré acoplarlo a mi la página web con solo implementarlo y darle redirección.
+-podré modificar los datos de la tabla y la API key etc que pide Baserow para autenticar (desde el código)
+  -->
+
+<!---->
+<!--formulario que crea la consulta-->
+<div>
+    <form>
+        <label>Busqueda
+            <input type="text"/>
+        </label>
+        <button>Buscar</button>
+
+    </form>
+</div>
+
+<!--muestra el resultado-->
+<div >
+    <div style="display: flex; gap: 15px" id="query_results_field">
+        id
+    </div>
+    <div class="api-result-rows" style="display: flex; flex-direction: column" id="query_results_rows"/>
+</div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="index.js"></script>
+</body>
+<style>
+    .api-result-rows > div {
+        display: flex;
+        gap: 15px;
+    }
+</style>
+</html>
