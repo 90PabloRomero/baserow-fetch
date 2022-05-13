@@ -19,6 +19,14 @@
 -podré modificar los datos de la tabla y la API key etc que pide Baserow para autenticar (desde el código)
   -->
 
+<!--
+TODO!
+-limitar busquedas solo por numero o ID (preguntar por estructura del modelo)
+-deformar a otro estilo de retorno
+-cambiar colores base por los del branding
+-->
+
+
 <!---->
 <!--formulario que crea la consulta-->
 <div>
@@ -32,7 +40,7 @@
 
 <!--muestra el resultado-->
 <div class="table-wrapper">
-    <small>Resultados de la búsqueda "<span id="inputIngresado"></span>"</small>
+    <small>Resultados de la búsqueda "<span style="font-size: 1.5rem" id="inputIngresado"></span>"</small>
     <table class="fl-table">
         <thead>
         <tr class="api-result-fields" id="query_results_field">
@@ -40,7 +48,7 @@
         </tr>
         </thead>
 
-        <tbody class="api-result-rows" id="query_results_rows"><td class="is-hidden">secret</td></tbody>
+        <tbody class="api-result-rows" id="query_results_rows"></tbody>
     </table>
 </div>
 

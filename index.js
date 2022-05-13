@@ -100,6 +100,7 @@ let typeInterval = 500;
 let searchInput = document.getElementById('searchbox');
 
 searchInput.addEventListener('keyup', () => {
+  inputIngresado.innerHTML = ("")
   clearTimeout(typingTimer);
   typingTimer = setTimeout(liveSearch, typeInterval);
 });
