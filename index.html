@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
 
 
 </head>
@@ -29,66 +29,207 @@ TODO!
 
 <!---->
 <!--formulario que crea la consulta-->
-<div>
-    <form>
-        <label for="searchbox">Buscar cliente<br>
-            <legend><small>Usted aquí puede buscar su Ticket con el número provisto por la companía o también puede buscarse con su número de móvil.</small></legend>        </label>
 
-        <input type="search" id="searchbox" placeholder="Buscar por Numero o ID del Ticket"/>
-    </form>
+
+<div class="web wrapper">
+  <header>
+    <h2>Phone Repair</h2>
+  </header>
+  <main>
+    <div style="display:flex">
+      <div style="width:50%;">
+        <div>
+          <div class="flex-column left-container">
+            <h1>Consulta el estado de tu Reparación</h1>
+            <div class="flex-column">
+              <div class="box">
+                <form>
+                  <label for="searchboxAllRows" style="display:none">Consulta el estado de tu Reparación<br>
+                    <legend><small>Usted aquí puede buscar su Ticket con el número provisto por la companía o también puede buscarse con su número de móvil.</small></legend>
+                  </label>
+                  <input type="search" id="searchboxAllRows" placeholder="Nº de Teléfono"/>
+                </form>
+                <div id="boxSearchResultsQuery" class="flex-column box-search-results">
+<!--                  <div>Ref<span id="orderN"></span> - <span></span></div>-->
+<!--                  <div>Reparación: <span></span></div>-->
+<!--                  <div>Total: <span></span></div>-->
+<!--                  <div>ESTADO: </div>-->
+<!--                  <div id="showDeviceState" class="showDeviceState box-device-ready">Reparado por Retirar</div>-->
+<!--                  <div class="lastUpdate">Actualizado el <span></span> a las <span></span></div>-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="width:50%;">
+        <div>
+          <img src="imagen-costado.png" alt="" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </main>
 </div>
 
+
+<!--<div>-->
+<!--    <form>-->
+<!--        <label for="searchboxAllRows" style="display:none">Consulta el estado de tu Reparación<br>-->
+<!--            <legend><small>Usted aquí puede buscar su Ticket con el número provisto por la companía o también puede buscarse con su número de móvil.</small></legend>-->
+<!--        </label>-->
+<!--        <input type="search" id="searchboxAllRows" placeholder="Buscar en todos lados"/>-->
+<!--    </form>-->
+<!--</div>-->
 <!--muestra el resultado-->
-<div class="table-wrapper">
-    <small>Resultados de la búsqueda "<span style="font-size: 1.5rem" id="inputIngresado"></span>"</small>
-    <table class="fl-table">
-        <thead>
-        <tr class="api-result-fields" id="query_results_field">
-            <th>id</th>
-        </tr>
-        </thead>
+<!--<div class="table-wrapper">-->
+<!--  &lt;!&ndash;    <small>Resultados de la búsqueda "<span style="font-size: 1.5rem" id="inputIngresado"></span>"</small>&ndash;&gt;-->
+<!--  <table class="fl-table">-->
+<!--    <thead>-->
+<!--    <tr class="api-result-fields" id="query_results_field">-->
+<!--      <th>id</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
 
-        <tbody class="api-result-rows" id="query_results_rows"></tbody>
-    </table>
-</div>
+<!--    <tbody class="api-result-rows" id="query_results_rows">-->
+<!--    </tbody>-->
+<!--  </table>-->
+<!--</div>-->
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="index.js"></script>
 </body>
 <style>
-    .is-hidden { display: none!important; }
+    :root {
+        --cabeceraBackground: #d9d9d9;
+        --boxColor: #5271ff;
+        --boxTextColor: var(--boxColor) - #234234;
+    }
+    .box {
+        background: var(--boxColor);
+        color: var(--boxTextColor);
+        min-height: 300px;
+        border-radius: 5px;
+        padding: 30px 5px 15px 5px;
+        max-width: 600px;
+        min-width: calc(100% - 10vw);
+        margin-left: auto;
+        position:relative;
+    }
+    .result > div:nth-child(8),
+    .result > div:nth-child(2){
+        display: none;
+    }
+    .result > div:nth-child(1):before {
+        content: "Ref Id: "
+    }
+    .result > div:nth-child(3):before {
+        content: "Reparación: "
+    }
+    .result > div:nth-child(4):before {
+        content: "Total: "
+    }
+    .result > div:nth-child(4):after {
+         content: "€"
+     }
+    .result > div:nth-child(6):before {
+        content: "Actualizado el ";
+        font-size: 13px;
+        font-weight: 100;
+    }
+
+    .result > div:nth-child(5) {
+        margin-bottom: 2rem;
+        background: white;
+        color: darkred;
+        padding: .6rem 1rem;
+        font-size: 20px;
+        font-weight: 800;
+        border-radius: 4px;
+        border: 1px solid #ced7ff;
+
+    }
+
+    .result > div:nth-child(6):after {
+        content: " a las ";
+        font-size: 13px;
+        font-weight: 100;
+    }
+    .result > div:nth-child(6),
+    .result > div:nth-child(7){
+        display: inline-block;
+    }
+    .box-search-results {
+        color: white;
+        text-align: center;
+        gap: 8px;
+        font-size: 16px;
+        margin: 2rem 1rem 0 1rem;
+        font-weight: 600;
+    }
+    .box-device-ready {
+        background: white;
+        color: green!important;
+        padding: .6rem 1rem;
+        font-size: 20px;
+        font-weight: 800;
+        border-radius: 4px;
+        border: 1px solid #ced7ff;
+    }
+    .flex-column { display: flex; flex-direction: column; position: relative}
+    .is-hidden {
+        display: none!important;
+    }
     *{
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
+        margin: 0;
+        padding: 0;
     }
+    header {
+        background: var(--cabeceraBackground);
+        padding: 1rem;
+    }
+    img {max-width: 100%; height: auto;}
     body {
         font-family: Helvetica,serif;
         -webkit-font-smoothing: antialiased;
+
     }
-    form {
-        display: flex;
-        justify-content: center;
+    main{
+        padding: 3rem .51vw;
+    }
+    /*form {*/
+    /*    display: flex;*/
+    /*    justify-content: center;*/
+    /*    text-align: center;*/
+    /*    flex-direction: column;*/
+    /*    gap: 1rem;*/
+    /*    margin-bottom: 1rem;*/
+    /*}*/
+
+    /*form > * {*/
+    /*    margin-inline: auto;*/
+    /*}*/
+    .left-container h1{
         text-align: center;
-        flex-direction: column;
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
+        font-size: 17px;
+        color: #0b52af;
+        margin: 1rem 0;
 
-    form > * {
-        margin-inline: auto;
     }
-
-    input[type=text] {
-        width: 230px;
+    input {
+        padding: 14px 20px 8px 20px;
+        min-width: 100%;
         -webkit-transition: width 0.4s ease-in-out;
         transition: width 0.4s ease-in-out;
+        font-family: Helvetica, serif;
+        font-size: 20px;
+
     }
 
     /* When the input field gets focus, change its width to 100% */
-    input[type=text]:focus {
-        width: 310px;
-    }
+
     .fl-table {
         border-radius: 5px;
         /*font-size: 12px;*/
