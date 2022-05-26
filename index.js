@@ -6,6 +6,8 @@ const TABLENUMBER = 64071
 
 // constantes front - busqueda
 const inputIngresado = document.querySelector('#inputIngresado')
+const searchButton = document.querySelectorAll('.searchButton')
+
 // constantes front -resultados
 const resultsContainerFields = document.querySelector('#query_results_field')
 const resultsContainerRows = document.querySelector('#query_results_rows')
@@ -140,9 +142,6 @@ function liveSearchAllRows() {
     //   console.log("box con true")
     // } else {console.log("")}
   }
-
-
-
   }
 
 // function searchARow(){
@@ -157,15 +156,30 @@ let typingTimer;
 let typeInterval = 500;
 let searchInput = document.getElementById('searchboxAllRows');
 
-searchInput.addEventListener('keyup', () => {
-  // inputIngresado.innerHTML = ("")
-  if (searchInput.value.length > 2) {
 
-  clearTimeout(typingTimer);
-  typingTimer = setTimeout(liveSearchAllRows, typeInterval);
-  } else {
-    console.log(" ")
-  }
+document.addEventListener('DOMContentLoaded', function(event) {
+  const btn = document.getElementById('searchButton');
+  btn.addEventListener('click', event => {
+    // inputIngresado.innerHTML = ("")
+    if (searchInput.value.length > 2) {
 
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(liveSearchAllRows, typeInterval);
+    } else {
+      console.log(" ")
+    }
+  })
 });
+
+
+// searchButton.addEventListener('click', () => {
+  // inputIngresado.innerHTML = ("")
+  // if (searchInput.value.length > 2) {
+  //
+  // clearTimeout(typingTimer);
+  // typingTimer = setTimeout(liveSearchAllRows, typeInterval);
+  // } else {
+  //   console.log(" ")
+  // }
+// });
 

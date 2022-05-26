@@ -19,13 +19,6 @@
 -podré modificar los datos de la tabla y la API key etc que pide Baserow para autenticar (desde el código)
   -->
 
-<!--
-TODO!
--limitar busquedas solo por numero o ID (preguntar por estructura del modelo)
--deformar a otro estilo de retorno
--cambiar colores base por los del branding
--->
-
 
 <!---->
 <!--formulario que crea la consulta-->
@@ -44,10 +37,12 @@ TODO!
             <div class="flex-column">
               <div class="box">
                 <form>
-                  <label for="searchboxAllRows" style="display:none">Consulta el estado de tu Reparación<br>
+                  <label for="searchboxAllRows" style="display:none">
+                    Consulta el estado de tu Reparación<br>
                     <legend><small>Usted aquí puede buscar su Ticket con el número provisto por la companía o también puede buscarse con su número de móvil.</small></legend>
                   </label>
                   <input type="search" id="searchboxAllRows" placeholder="Nº de Teléfono"/>
+                  <button type="button" id="searchButton">Search</button>
                 </form>
                 <div id="boxSearchResultsQuery" class="flex-column box-search-results">
 <!--                  <div>Ref<span id="orderN"></span> - <span></span></div>-->
@@ -218,9 +213,16 @@ TODO!
         margin: 1rem 0;
 
     }
+    form {
+        display: flex;
+    }
+    button {
+        background: darkgreen;
+        color: white;
+        border: 3px solid green;
+    }
     input {
         padding: 14px 20px 8px 20px;
-        min-width: 100%;
         -webkit-transition: width 0.4s ease-in-out;
         transition: width 0.4s ease-in-out;
         font-family: Helvetica, serif;
