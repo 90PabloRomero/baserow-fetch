@@ -122,26 +122,71 @@ function liveSearchAllRows() {
   const rowsResultsSearch = document.querySelectorAll('.result')
 
   let search_query = document.getElementById("searchboxAllRows").value;
+  let search_query_RegExp = new RegExp(search_query)
+  let search_query_ready = search_query_RegExp.toString().replace(/\//g, '')
   //Use innerText if all contents are visible
   //Use textContent for including hidden elements
   // inputIngresado.innerHTML = (search_query)
 
   const excludeDates = "/"
+//  rowsResultsSearch[i].textContent.toLowerCase().includes(search_query.toLowerCase())
+
+  // for(let i = 0; i < rowsResultsSearch.length; i++){
+  //   if
+  //   (
+  //     rowsResultsSearch[i].textContent.toLowerCase().includes(search_query.toLowerCase())
+  //     && !isNaN(search_query)
+  //     && !search_query.includes(excludeDates)
+  //     && search_query.length >= 2
+  //   ) {
+  //     rowsResultsSearch[i].classList.remove("is-hidden");
+  //   } else {
+  //     rowsResultsSearch[i].classList.add("is-hidden");
+  //     }
+  //   }
+
+  console.log(search_query_ready.length)
+
   for(let i = 0; i < rowsResultsSearch.length; i++){
+    if(rowsResultsSearch[i].textContent.toLowerCase().match(search_query_ready)
+//    && rowsResultsSearch[i].textContent.toLowerCase().length === search_query_ready.length
+    )
+    {
+      console.log("HAY UN MATCH Y ES" + (rowsResultsSearch[i].textContent.toLowerCase().match(search_query_ready)))
+      const valorEncontrado = rowsResultsSearch[i].textContent.slice(1, 10)
 
-    if(rowsResultsSearch[i].textContent.toLowerCase()
-      .includes(search_query.toLowerCase())
-     && !isNaN(search_query) && !search_query.includes(excludeDates) && search_query.length >= 2) {
-      rowsResultsSearch[i].classList.remove("is-hidden");
+      console.log('el indice Nª ' + i + ' es true!!');
+      const resultado = rowsResultsSearch[i].textContent.slice(1, 10).match(search_query_RegExp)
 
+      //const resultadoIncludes = rowsResultsSearch[i].textContent.toLowerCase().includes(search_query_ready)
+      console.log("el largo de la variable RESULTADO " + resultado.length);
+      console.log("el largo de la BUSQUEDA ES " + search_query_ready.length);
+      console.log("VALOR ENCONTRADO ES " +valorEncontrado)
+      console.log("el valor de RESULTADO " + resultado)
+
+      console.log("la busqueda y el resultado son encontrados?" + (resultado.toString().length === search_query_ready.length))
+
+      console.log("esto es un numero? " + resultado.toString().length)
+      console.log(search_query_ready.length + ' y esto es un string?')
+        if(valorEncontrado.toString().length === search_query_ready.length){
+          rowsResultsSearch[i].classList.remove("is-hidden");
+          console.log('esto se da cuando el ' + i +' es igual a rowResultSearch')
+        }else {
+          rowsResultsSearch[i].classList.add("is-hidden")
+          console.log('el indice '+ i + " es false!!!"
+            // + rowsResultsSearch[i].textContent.toLowerCase().match(search_query_RegExp).length + ' ' + search_query_ready.length
+          )
+        }
     } else {
-      rowsResultsSearch[i].classList.add("is-hidden");
-
-      }
-    // if (rowsResultsSearch[i] === true){
-    //   console.log("box con true")
-    // } else {console.log("")}
+      rowsResultsSearch[i].classList.add("is-hidden")
+      console.log('el indice '+ i + " es false!!!"
+       // + rowsResultsSearch[i].textContent.toLowerCase().match(search_query_RegExp).length + ' ' + search_query_ready.length
+      )
+    }
   }
+
+
+
   }
 
 // function searchARow(){
