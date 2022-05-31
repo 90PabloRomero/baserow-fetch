@@ -11,14 +11,6 @@
 </head>
 <body>
 <!---->
-<!--
--Solo necesito a manera de consulta a una tabla específica. Que luego ya yo pueda cambiar desde el código
--Quiero que en una caja de texto se coloque el campo ID y en otro campo el número de teléfono y de cómo resultado toda la información referida a esa fila.
--Quiero una web responsiva. La idea es que se pueda acceder desde cualquier navegador para poder realizar la consulta.
--al final de este diseño podré acoplarlo a mi la página web con solo implementarlo y darle redirección.
--podré modificar los datos de la tabla y la API key etc que pide Baserow para autenticar (desde el código)
-  -->
-
 
 <!---->
 <!--formulario que crea la consulta-->
@@ -36,6 +28,7 @@
             <h1>Consulta el estado de tu Reparación</h1>
             <div class="flex-column">
               <div class="box">
+                  <div id="tipoDeBusqueda" style="position: absolute; top: 5px; left: 5px;"></div>
                 <form>
                   <label for="searchboxAllRows" style="display:none">
                     Consulta el estado de tu Reparación<br>
@@ -45,12 +38,7 @@
                   <button type="button" id="searchButton">Search</button>
                 </form>
                 <div id="boxSearchResultsQuery" class="flex-column box-search-results">
-<!--                  <div>Ref<span id="orderN"></span> - <span></span></div>-->
-<!--                  <div>Reparación: <span></span></div>-->
-<!--                  <div>Total: <span></span></div>-->
-<!--                  <div>ESTADO: </div>-->
-<!--                  <div id="showDeviceState" class="showDeviceState box-device-ready">Reparado por Retirar</div>-->
-<!--                  <div class="lastUpdate">Actualizado el <span></span> a las <span></span></div>-->
+                  <div class="no-results is-hidden">No se encontraron resultados.</div>
                 </div>
               </div>
             </div>
@@ -66,29 +54,6 @@
   </main>
 </div>
 
-
-<!--<div>-->
-<!--    <form>-->
-<!--        <label for="searchboxAllRows" style="display:none">Consulta el estado de tu Reparación<br>-->
-<!--            <legend><small>Usted aquí puede buscar su Ticket con el número provisto por la companía o también puede buscarse con su número de móvil.</small></legend>-->
-<!--        </label>-->
-<!--        <input type="search" id="searchboxAllRows" placeholder="Buscar en todos lados"/>-->
-<!--    </form>-->
-<!--</div>-->
-<!--muestra el resultado-->
-<!--<div class="table-wrapper">-->
-<!--  &lt;!&ndash;    <small>Resultados de la búsqueda "<span style="font-size: 1.5rem" id="inputIngresado"></span>"</small>&ndash;&gt;-->
-<!--  <table class="fl-table">-->
-<!--    <thead>-->
-<!--    <tr class="api-result-fields" id="query_results_field">-->
-<!--      <th>id</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-
-<!--    <tbody class="api-result-rows" id="query_results_rows">-->
-<!--    </tbody>-->
-<!--  </table>-->
-<!--</div>-->
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="index.js"></script>
@@ -110,29 +75,7 @@
         margin-left: auto;
         position:relative;
     }
-    .result > div:nth-child(8),
-    .result > div:nth-child(2){
-        display: none;
-    }
-    .result > div:nth-child(1):before {
-        content: "Ref Id: "
-    }
-    .result > div:nth-child(3):before {
-        content: "Reparación: "
-    }
-    .result > div:nth-child(4):before {
-        content: "Total: "
-    }
-    .result > div:nth-child(4):after {
-         content: "€"
-     }
-    .result > div:nth-child(6):before {
-        content: "Actualizado el ";
-        font-size: 13px;
-        font-weight: 100;
-    }
-
-    .result > div:nth-child(5) {
+    .result.NOT-READY > div:nth-child(6) {
         margin-bottom: 2rem;
         background: white;
         color: darkred;
@@ -141,16 +84,49 @@
         font-weight: 800;
         border-radius: 4px;
         border: 1px solid #ced7ff;
-
     }
-
-    .result > div:nth-child(6):after {
-        content: " a las ";
+    .result > div:nth-child(9),
+    .result > div:nth-child(1),
+    .result > div:nth-child(3){
+        display: none;
+    }
+    .result > div:nth-child(2):before {
+        content: "Orden Num: "
+    }
+    .result > div:nth-child(4):before {
+        content: "Reparación: "
+    }
+    .result > div:nth-child(5):before {
+        content: "Total: "
+    }
+    .result > div:nth-child(5):after {
+         content: "€"
+     }
+    .result > div:nth-child(7):before {
+        content: "Actualizado el ";
         font-size: 13px;
         font-weight: 100;
     }
-    .result > div:nth-child(6),
-    .result > div:nth-child(7){
+
+    .result > div:nth-child(6) {
+        margin-bottom: 2rem;
+        background: darkseagreen;
+        color: forestgreen;
+        padding: .6rem 1rem;
+        font-size: 20px;
+        font-weight: 800;
+        border-radius: 4px;
+        border: 1px solid #ced7ff;
+
+    }
+
+    .result > div:nth-child(7):after {
+        content: " a las";
+        font-size: 13px;
+        font-weight: 100;
+    }
+    .result > div:nth-child(7),
+    .result > div:nth-child(8){
         display: inline-block;
     }
     .box-search-results {
@@ -170,10 +146,15 @@
         border-radius: 4px;
         border: 1px solid #ced7ff;
     }
-    .flex-column { display: flex; flex-direction: column; position: relative}
-    .is-hidden {
-        display: none!important;
+    #tipoDeBusqueda {
+        color:white;
     }
+    #tipoDeBusqueda:before {
+        content: "Buscando por "
+    }
+    .flex-column { display: flex; flex-direction: column; position: relative}
+    .is-hidden {display: none!important;}
+
     *{
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
@@ -189,31 +170,18 @@
     body {
         font-family: Helvetica,serif;
         -webkit-font-smoothing: antialiased;
-
     }
     main{
         padding: 3rem .51vw;
     }
-    /*form {*/
-    /*    display: flex;*/
-    /*    justify-content: center;*/
-    /*    text-align: center;*/
-    /*    flex-direction: column;*/
-    /*    gap: 1rem;*/
-    /*    margin-bottom: 1rem;*/
-    /*}*/
-
-    /*form > * {*/
-    /*    margin-inline: auto;*/
-    /*}*/
     .left-container h1{
         text-align: center;
         font-size: 17px;
         color: #0b52af;
         margin: 1rem 0;
-
     }
     form {
+        justify-content: center;
         display: flex;
     }
     button {
@@ -227,108 +195,8 @@
         transition: width 0.4s ease-in-out;
         font-family: Helvetica, serif;
         font-size: 20px;
-
     }
 
-    /* When the input field gets focus, change its width to 100% */
-
-    .fl-table {
-        border-radius: 5px;
-        /*font-size: 12px;*/
-        font-weight: normal;
-        border: none;
-        border-collapse: collapse;
-        width: 100%;
-        max-width: 100%;
-        white-space: nowrap;
-        background-color: white;
-    }
-    .fl-table td, .fl-table th {
-        text-align: center;
-        padding: 8px;
-    }
-    .fl-table td {
-        border-right: 1px solid #f8f8f8;
-        font-size: 14px;
-    }
-
-    .fl-table thead th {
-        color: #ffffff;
-        background: #4FC3A1;
-    }
-
-
-    .fl-table thead th:nth-child(odd) {
-        color: #ffffff;
-        background: #324960;
-    }
-
-    .fl-table tr:nth-child(even) {
-        background: #F8F8F8;
-    }
-    @media (max-width: 767px) {
-        .fl-table {
-            display: block;
-            width: 100%;
-        }
-        .table-wrapper:before{
-            content: "Scroll horizontally >";
-            display: block;
-            text-align: right;
-            font-size: 11px;
-            color: white;
-            padding: 0 0 10px;
-        }
-        .fl-table thead, .fl-table tbody, .fl-table thead th {
-            display: block;
-        }
-        .fl-table thead th:last-child{
-            border-bottom: none;
-        }
-        .fl-table thead {
-            float: left;
-        }
-        .fl-table tbody {
-            width: auto;
-            position: relative;
-            overflow-x: auto;
-        }
-        .fl-table td, .fl-table th {
-            padding: 20px .625em .625em .625em;
-            height: 60px;
-            vertical-align: middle;
-            box-sizing: border-box;
-            overflow-x: hidden;
-            overflow-y: auto;
-            width: 120px;
-            font-size: 13px;
-            text-overflow: ellipsis;
-        }
-        .fl-table thead th {
-            text-align: left;
-            border-bottom: 1px solid #f7f7f9;
-        }
-        .fl-table tbody tr {
-            display: table-cell;
-        }
-        .fl-table tbody tr:nth-child(odd) {
-            background: none;
-        }
-        .fl-table tr:nth-child(even) {
-            background: transparent;
-        }
-        .fl-table tr td:nth-child(odd) {
-            background: #F8F8F8;
-            border-right: 1px solid #E6E4E4;
-        }
-        .fl-table tr td:nth-child(even) {
-            border-right: 1px solid #E6E4E4;
-        }
-        .fl-table tbody td {
-            display: block;
-            text-align: center;
-        }
-    }
 
 </style>
 </html>
