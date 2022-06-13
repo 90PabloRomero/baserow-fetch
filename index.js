@@ -88,31 +88,34 @@ function searchAllRowsByPhone() {
 }
 
 function searchAllRowsByOrderNum() {
-
-  const rowsResultsSearch = document.querySelectorAll('.result')
+  const count = n => String((Math.abs(n))).length;
+  const rowsResultsSearch = Array.from(document.querySelectorAll('.result'))
   const noResultsDiv = document.querySelectorAll('.no-results')
   let search_query = document.getElementById("searchboxAllRows").value;
 
   let search_query_RegExp = new RegExp(search_query)
-  let search_query_ready = search_query_RegExp.toString().replace(/\//g, '')
+  let search_query_ready = Number(search_query) === 1 ? 0 : (Number(search_query) - 1)
 
+  // console.log(Number(search_query) === 1 ? 0 : (Number(search_query) - 1))
+  // console.log(Array.from(rowsResultsSearch)[Number(search_query) === 1 ? 0 : (Number(search_query) - 1)])
+  
+  // console.log(search_query_ready)
+  
+  
   for(let i = 0; i < rowsResultsSearch.length; i++){
-  console.log(rowsResultsSearch[i].childNodes[8].textContent)
+  // console.log(rowsResultsSearch[i].childNodes[8].textContent)
     //console.log(i+1 === Number(search_query))
-    if(rowsResultsSearch[i].childNodes[1].textContent === search_query.toString())
+    // console.log(count(search_query_ready))
+    if(rowsResultsSearch[search_query_ready])
     {
-      if(rowsResultsSearch[i].childNodes[1].textContent.length === search_query.length){
-        rowsResultsSearch[i].classList.remove("is-hidden");
+        rowsResultsSearch[i].classList.add("is-hidden");
+        rowsResultsSearch[search_query_ready].classList.remove("is-hidden");
         noResultsDiv[i].classList.add("is-hidden");
         rowsResultsSearch[i].childNodes[8].textContent === "true" ? rowsResultsSearch[i].classList.add("") : rowsResultsSearch[i].classList.add("NOT-READY")
       }else {
         rowsResultsSearch[i].classList.add("is-hidden")
         noResultsDiv[i].classList.remove("is-hidden");
       }
-    } else {
-      rowsResultsSearch[i].classList.add("is-hidden")
-      noResultsDiv[i].classList.add("is-hidden");
-    }
   }
 }
 
@@ -124,14 +127,14 @@ let searchInput = document.getElementById('searchboxAllRows');
 document.addEventListener('DOMContentLoaded', function(event) {
   const btn = document.getElementById('searchButton');
   btn.addEventListener('click', event => {
-    if (searchInput.value.length > 4) {
+    if (searchInput.value.length > 6) {
       clearTimeout(typingTimer);
       typingTimer = setTimeout(searchAllRowsByPhone, typeInterval);
       tipoDeBusqueda.innerHTML = 'Numero de telefono'
     } else {
       clearTimeout(typingTimer);
       typingTimer = setTimeout(searchAllRowsByOrderNum, typeInterval);
-      tipoDeBusqueda.innerHTML = 'Numero de orden'
+      tipoDeBusqueda.innerHTML = 'Numero de ID'
     }
   })
 });
